@@ -1,78 +1,13 @@
-# Build Bert-based NLP Semantic Search System
+# Build Covid Question Answering Bot
 
-<p align="center">
+In this demo, we use Jina to build a semantic search system on the [What Are People Asking About COVID-19?](https://openreview.net/pdf?id=qd51R0JNLl). The goal is to find out relevant answers when the user query a similar question. The data contains the questions and answers from various sources.
 
-[![Jina](https://github.com/jina-ai/jina/blob/master/.github/badges/jina-badge.svg "We fully commit to open-source")](https://jina.ai)
-[![Jina](https://github.com/jina-ai/jina/blob/master/.github/badges/jina-hello-world-badge.svg "Run Jina 'Hello, World!' without installing anything")](https://github.com/jina-ai/jina#jina-hello-world-)
-[![Jina](https://github.com/jina-ai/jina/blob/master/.github/badges/license-badge.svg "Jina is licensed under Apache-2.0")](#license)
-[![Jina Docs](https://github.com/jina-ai/jina/blob/master/.github/badges/docs-badge.svg "Checkout our docs and learn Jina")](https://docs.jina.ai)
-[![We are hiring](https://github.com/jina-ai/jina/blob/master/.github/badges/jina-corp-badge-hiring.svg "We are hiring full-time position at Jina")](https://jobs.jina.ai)
-<a href="https://twitter.com/intent/tweet?text=%F0%9F%91%8DCheck+out+Jina%3A+the+New+Open-Source+Solution+for+Neural+Information+Retrieval+%F0%9F%94%8D%40JinaAI_&url=https%3A%2F%2Fgithub.com%2Fjina-ai%2Fjina&hashtags=JinaSearch&original_referer=http%3A%2F%2Fgithub.com%2F&tw_p=tweetbutton" target="_blank">
-  <img src="https://github.com/jina-ai/jina/blob/master/.github/badges/twitter-badge.svg"
-       alt="tweet button" title="👍Share Jina with your friends on Twitter"></img>
-</a>
-[![Python 3.7 3.8](https://github.com/jina-ai/jina/blob/master/.github/badges/python-badge.svg "Jina supports Python 3.7 and above")](#)
-[![Docker](https://github.com/jina-ai/jina/blob/master/.github/badges/docker-badge.svg "Jina is multi-arch ready, can run on differnt architectures")](https://hub.docker.com/r/jinaai/jina/tags)
-
-</p>
-
-In this demo, we use Jina to build a semantic search system on the [SouthParkData](https://github.com/BobAdamsEE/SouthParkData/). The goal is to find out who said what in the South Park episodes when the user query a sentence. The SouthPark data contains the characters and lines from seasons 1 to 19. Many thanks to [BobAdamsEE](https://github.com/BobAdamsEE) for sharing this awesome dataset!👏. This demo will show you how to quickly build a search system from scratch with Jina. Before moving forward, We highly suggest to going through our lovely [Jina 101](https://github.com/jina-ai/jina/tree/master/docs/chapters/101) and [Jina "Hello, World!"👋🌍](https://github.com/jina-ai/jina#jina-hello-world-).
-
-
-
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**
-
-- [Overview](#overview)
-- [Try out this demo by yourself](#try-out-this-demo-by-yourself)
-- [Prerequirements](#prerequirements)
-- [Prepare the data](#prepare-the-data)
-- [Define the Flows](#define-the-flows)
-- [Run the Flows](#run-the-flows)
-- [Dive into the Pods](#dive-into-the-pods)
-- [Wrap up](#wrap-up)
-- [Next Steps](#next-steps)
-- [Documentation](#documentation)
-- [Stay tuned](#stay-tuned)
-- [License](#license)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
 
 ## Overview
 
-Let's have an overview of the magic. We want build a search system to find lines from South Park scripts which are similar to a user's input text. To make this happen, we split the scripts into sentences and consider each sentence as one **Document**. For simplicity, each Document has only one **Chunk**, which contains the same sentence as the Document. Each sentence, as a Chunk, is encoded into a vector with the help of the **Encoder** (i.e. we use the `DistilBert` from the `🤗 Transformers` lib).
-
-Similar to classic search engines, we first build an index for all the documents (i.e. the characters and their lines). During indexing, Jina, _the_ neural search framework, uses vectors to represent the sentences and save the vectors in the index. During querying, taking the text from the user's input, we encode the input into vectors with the same **Encoder**. As a result, these query vectors can be used to retrieve the indexed lines with similiar meanings.
-
-<p align="center">
-  <img src=".github/southpark.gif?raw=true" alt="Jina banner" width="90%">
-</p>
-
-
-## Try out this demo by yourself
-
-We've prepared a docker image with indexed data and you can run it by the following command,
-
-```bash
-docker run -p 45678:45678 jinaai/hub.app.distilbert-southpark:latest
-```
-
-Now you can open your shell and check out the results via the RESTful API. The matched results are stored in `topkResults`.
-
-```bash
-curl --request POST -d '{"top_k": 10, "mode": "search",  "data": ["text:hey, dude"]}' -H 'Content-Type: application/json' 'http://0.0.0.0:45678/api/search'
-```
-
-For a better visualization, you can also open [https://jina.ai/jinabox.js/](https://jina.ai/jinabox.js/) in your brower, and replace server endpoint with `http://localhost:45678/api/search`. If you want to learn more about jinabox, please check out [https://github.com/jina-ai/jinabox.js](https://github.com/jina-ai/jinabox.js) and enjoy playing.
-
-<p align="center">
-  <img src=".github/Screenshot 2020-09-20 at 12.25.19 PM.png?raw=true" alt="Covid Jinabox" width="80%">
-</p>
-
-Check out more details about the docker image [here](README.restful.md).
+A major challenge during fast-developing pandemics such as COVID-19 is keeping people updated with the latest and most relevant information. Since the beginning of COVID, several websites have created frequently asked questions (FAQ) pages that they regularly update. But even so, users might struggle to find their questions on FAQ pages, and many questions remain unanswered.
 
 
 ## Prerequirements
@@ -89,20 +24,17 @@ pip install --upgrade -r requirements.txt
 The raw data contains season, episode, character, and line information in the `.csv` format as follows:
 
 ```
-Season,Episode,Character,Line
-10,1,Stan,"You guys, you guys! Chef is going away.
-"
-10,1,Kyle,"Going away? For how long?
-"
-10,1,Stan,"Forever.
-"
-10,1,Chef,"I'm sorry boys.
+Category,Question ID,Question,Source,Answers
+Speculation - Pandemic Duration,42,will covid end soon,Google Search,"may 1st, i think, is completely unrealistic, said dr. ashish jha, director of the harvard global health institute. , probably for several months. but you might have to do it over and over again, since the outbreak could come in waves. "
+Speculation - Pandemic Duration,42,will covid end,Yahoo Search,"may 1st, i think, is completely unrealistic, said dr. ashish jha, director of the harvard global health institute. , probably for several months. but you might have to do it over and over again, since the outbreak could come in waves. "
+Speculation - Pandemic Duration,42,when covid will be over,Google Search,"may 1st, i think, is completely unrealistic, said dr. ashish jha, director of the harvard global health institute. , probably for several months. but you might have to do it over and over again, since the outbreak could come in waves. "
+Speculation - Pandemic Duration,42,when covid lockdown ends,Google Search,"may 1st, i think, is completely unrealistic, said dr. ashish jha, director of the harvard global health institute. , probably for several months. but you might have to do it over and over again, since the outbreak could come in waves. "
+Speculation - Pandemic Duration,42,will covid go away,Google Search,"may 1st, i think, is completely unrealistic, said dr. ashish jha, director of the harvard global health institute. , probably for several months. but you might have to do it over and over again, since the outbreak could come in waves. "
+Speculation - Pandemic Duration,42,when covid will end,Yahoo Search,"may 1st, i think, is completely unrealistic, said dr. ashish jha, director of the harvard global health institute. , probably for several months. but you might have to do it over and over again, since the outbreak could come in waves. "
+
 ```
 
-Run the following script to clone the data and do some data wrangling. Overall, there are 106,820 lines in `/tmp/jina/southpark/character-lines.csv`
-
-```bash
-bash ./get_data.sh data/
+Download the data from https://github.com/JerryWei03/COVID-Q/blob/master/final_master_dataset.csv
 ```
 
 
@@ -254,7 +186,7 @@ Another important difference is that the two Flows are used to process different
 
 
 ```bash
-python app.py -t index -n 500
+python app.py -t index
 ```
 
 <details>
@@ -469,52 +401,13 @@ requests:
           executor: BasePbIndexer
 ```
 
-## Wrap up
-Congratulations! Now you've got your very own neural search engine explained!
-
-Let's wrap up what we've covered in this demo.
-
-1. Chunks are basic elements in Jina. Documents are the final inputs and outputs from Jina.
-2. Flows are our good friends to build the search engine. To either index or query, we need to define and build a Flow.
-3. The index and the query Flow shares most Pods.
-4. The Pods in the Flow can run either in serial or in parallel.
-5. The Pods can behave differently to different types of requests. The Pods' YAML file defines their behaviors.
-6. The data in the requests should be in `bytes` format.
-7. Inside the Pods, Drivers are used to interpret the messages for Executors, call the Executors to handle the messages, and wrap the results back into the message.
-8. The query results in the return response are saved in the Protobuf format.
-
-**Enjoy Coding with Jina!**
-
 ## Next Steps
 - Try other encoders or rankers.
 - Run the Pods in docker containers.
 - Scale up the indexing procedure.
 - Speed up the procedure by using `read_only`
-- Explore the `metas` field in the YAML file.
-
-## Documentation
-
-<a href="https://docs.jina.ai/">
-<img align="right" width="350px" src="https://github.com/jina-ai/jina/blob/master/.github/jina-docs.png" />
-</a>
-
-The best way to learn Jina in depth is to read our documentation. Documentation is built on every push, merge, and release event of the master branch. You can find more details about the following topics in our documentation.
-
-- [Jina command line interface arguments explained](https://docs.jina.ai/chapters/cli/index.html)
-- [Jina Python API interface](https://docs.jina.ai/api/jina.html)
-- [Jina YAML syntax for executor, driver and flow](https://docs.jina.ai/chapters/yaml/yaml.html)
-- [Jina Protobuf schema](https://docs.jina.ai/chapters/proto/index.html)
-- [Environment variables used in Jina](https://docs.jina.ai/chapters/envs.html)
-- ... [and more](https://docs.jina.ai/index.html)
-
-## Stay tuned
-
-- [Slack chanel](https://join.slack.com/t/jina-ai/shared_invite/zt-dkl7x8p0-rVCv~3Fdc3~Dpwx7T7XG8w) - a communication platform for developers to discuss Jina
-- [Community newsletter](mailto:newsletter+subscribe@jina.ai) - subscribe to the latest update, release and event news of Jina
-- [LinkedIn](https://www.linkedin.com/company/jinaai/) - get to know Jina AI as a company
-- ![Twitter Follow](https://img.shields.io/twitter/follow/JinaAI_?label=Follow%20%40JinaAI_&style=social) - follow us and interact with us using hashtag `#JinaSearch`
-- [Join Us](mailto:hr@jina.ai) - want to work full-time with us at Jina? We are hiring!
-- [Company](https://jina.ai) - know more about our company, we are fully committed to open-source!
+- Provide a Slackbot/Chatbot Interface
+- Allow voice input
 
 
 ## License
