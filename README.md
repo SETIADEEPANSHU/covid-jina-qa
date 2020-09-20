@@ -9,6 +9,9 @@ In this demo, we use Jina to build a semantic search system on the [What Are Peo
 
 A major challenge during fast-developing pandemics such as COVID-19 is keeping people updated with the latest and most relevant information. Since the beginning of COVID, several websites have created frequently asked questions (FAQ) pages that they regularly update. But even so, users might struggle to find their questions on FAQ pages, and many questions remain unanswered.
 
+## Demo
+
+<img align="right" height="420px" src=".github/Screenshot 2020-09-20 at 12.25.19 PM.png"/>
 
 ## Prerequirements
 
