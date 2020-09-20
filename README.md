@@ -240,7 +240,7 @@ def query(top_k):
     f = Flow().load_config("flow-query.yml")
     with f:
         while True:
-            text = input("please type a sentence: ")
+            text = input("please type your covid related query: ")
             if not text:
                 break
 
@@ -254,15 +254,16 @@ The `callback` argument is used to post-process the returned message. In this de
 ```python
 def print_topk(resp, sentence):
     for d in resp.search.docs:
-        print(f"Ta-Dah🔮, here are what we found for: {sentence}")
+        print(f"Jina Covid Bot🔮, Lets Burst your myths and present you real facts (No) {sentence}")
         for idx, match in enumerate(d.matches):
 
             score = match.score.value
             if score < 0.0:
                 continue
-            character = match.meta_info.decode()
-            dialog = match.text.strip()
-            print(f'> {idx:>2d}({score:.2f}). {character.upper()} said, "{dialog}"')
+            # answer = match.meta_info.decode()
+            question = match.meta_info.decode()
+            answer = match.text.strip()
+            print(f'> {idx:>2d}({score:.2f}). {answer.upper()} Query , "{question}"')
 ```
 
 ## Dive into the Pods
