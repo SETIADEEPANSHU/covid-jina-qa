@@ -15,6 +15,13 @@ A major challenge during fast-developing pandemics such as COVID-19 is keeping p
   <img src=".github/Screenshot 2020-09-20 at 12.25.19 PM.png?raw=true" alt="demo output">
 </p>
 
+## Demo Video Link : 
+
+[![Covid Q/A Bot](https://s1.gifyu.com/images/image92c774bfde7d27ae.png)](https://www.loom.com/share/4e50658d87fa466bad9ec70778b2eb68)
+
+## Presentation Link :
+
+https://docs.google.com/presentation/d/1hcN7ZPmOjfk82OwZ9QCC-K-hII48rS87el21t-9encc/edit?usp=sharing
 
 ## Prerequirements
 
