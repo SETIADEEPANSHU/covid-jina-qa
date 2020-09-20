@@ -33,10 +33,9 @@ Speculation - Pandemic Duration,42,will covid go away,Google Search,"may 1st, i 
 Speculation - Pandemic Duration,42,when covid will end,Yahoo Search,"may 1st, i think, is completely unrealistic, said dr. ashish jha, director of the harvard global health institute. , probably for several months. but you might have to do it over and over again, since the outbreak could come in waves. "
 
 ```
-
+```
 Download the data from https://github.com/JerryWei03/COVID-Q/blob/master/final_master_dataset.csv
 ```
-
 
 ## Define the Flows
 ### Index
@@ -265,9 +264,6 @@ def print_topk(resp, sentence):
             answer = match.text.strip()
             print(f'> {idx:>2d}({score:.2f}). {answer.upper()} Query , "{question}"')
 ```
-
-## Dive into the Pods
-If you want to know more about Pods, keep reading. As shown above, we defined the Pods by giving the YAML files. Now let's move on to see what is exactly written in these magic YAML files.
 
 ### `extractor`
 As a convention in Jina, A YAML config is used to describe the properties of an object so that we can easily configure the behavior of the Pods without touching the code.
