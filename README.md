@@ -14,6 +14,9 @@ A major challenge during fast-developing pandemics such as COVID-19 is keeping p
 <p align="center">
   <img src=".github/Screenshot 2020-09-20 at 12.25.19 PM.png?raw=true" alt="demo output">
 </p>
+<p align="center">
+  <img src=".github/Screenshot 2020-09-20 at 9.57.12 PM.png?raw=true" alt="demo output">
+</p>
 
 ## Demo Video Link : 
 
