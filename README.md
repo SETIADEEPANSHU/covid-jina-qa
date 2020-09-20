@@ -69,7 +69,7 @@ curl --request POST -d '{"top_k": 10, "mode": "search",  "data": ["text:hey, dud
 For a better visualization, you can also open [https://jina.ai/jinabox.js/](https://jina.ai/jinabox.js/) in your brower, and replace server endpoint with `http://localhost:45678/api/search`. If you want to learn more about jinabox, please check out [https://github.com/jina-ai/jinabox.js](https://github.com/jina-ai/jinabox.js) and enjoy playing.
 
 <p align="center">
-  <img src=".github/jinabox.png?raw=true" alt="Jinabox" width="80%">
+  <img src=".github/Screenshot 2020-09-20 at 12.25.19 PM.png?raw=true" alt="Covid Jinabox" width="80%">
 </p>
 
 Check out more details about the docker image [here](README.restful.md).
