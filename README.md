@@ -41,6 +41,8 @@ Speculation - Pandemic Duration,42,when covid will end,Yahoo Search,"may 1st, i 
 ```
 ```
 Download the data from https://github.com/JerryWei03/COVID-Q/blob/master/final_master_dataset.csv
+
+or you can use the sample processed data and put it in data folder https://github.com/SETIADEEPANSHU/covid-jina-qa/blob/master/covd_final_qa.csv
 ```
 
 ## Define the Flows
