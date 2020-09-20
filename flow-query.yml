@@ -1,0 +1,15 @@
+!Flow
+with:
+  read_only: true
+  port_expose: $JINA_PORT
+pods:
+  encoder:
+    uses: pods/encode.yml
+    timeout_ready: 60000
+    read_only: true
+  chunk_indexer:
+    uses: pods/index-chunk.yml
+    polling: all
+    uses_reducing: _merge_all
+  doc_indexer:
+    uses: pods/index-doc.yml

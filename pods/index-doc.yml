@@ -1,0 +1,6 @@
+!BinaryPbIndexer
+with:
+  index_filename: doc.gzip
+metas:
+  name: doc_indexer
+  workspace: $JINA_WORKSPACE
